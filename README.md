@@ -1,5 +1,9 @@
 # token-mgmt-ui-delegated-token-exchange
 
+## Setup
+
+![ASP.NET Core access token management](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/blob/main/images/context.png)
+
 ## Links
 
 https://damienbod.com/2023/01/09/implement-the-oauth-2-0-token-exchange-delegated-flow-between-an-azure-ad-api-and-an-api-protected-using-openiddict/
