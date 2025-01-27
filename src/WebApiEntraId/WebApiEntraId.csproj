@@ -19,8 +19,4 @@
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />  
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OAuthGrantExchangeIntegration\OAuthGrantExchangeIntegration.csproj" />
-  </ItemGroup>
-
 </Project>

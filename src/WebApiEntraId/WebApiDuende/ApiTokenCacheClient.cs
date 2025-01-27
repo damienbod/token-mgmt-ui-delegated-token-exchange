@@ -2,9 +2,7 @@
 using IdentityModel;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
-using OAuthGrantExchangeIntegration.Client;
 using System.Text.Json;
-using OAuthGrantExchangeIntegration;
 
 namespace WebApiEntraId.WebApiDuende;
 
@@ -71,7 +69,8 @@ public class ApiTokenCacheClient
         var cache = new DiscoveryCache(_webApiDuendeConfig.Value.IdentityProviderUrl);
         var disco = await cache.GetAsync();
 
-        var tokenExchangeSuccessResponse = await tokenExchangeHttpClient.RequestTokenExchangeTokenAsync(new TokenExchangeTokenRequest
+        var tokenExchangeSuccessResponse = await tokenExchangeHttpClient
+            .RequestTokenExchangeTokenAsync(new TokenExchangeTokenRequest
         {
             Address = disco.TokenEndpoint,
             ClientId = clientId,
@@ -87,22 +86,6 @@ public class ApiTokenCacheClient
                 { "exchange_style", "delegation" }
             }
         });
-
-        //new KeyValuePair<string, string>(OAuthGrantExchangeConsts.REQUEST_GRANT_TYPE, OAuthGrantExchangeConsts.GRANT_TYPE),
-     
-
-
-        //var tokenExchangeSuccessResponse = await RequestDelegatedAccessToken.GetDelegatedApiTokenTokenExchange(
-        //    new GetDelegatedApiTokenOAuthTokenExchangeModel
-        //    {
-        //        Scope = scope,
-        //        AccessToken = entraIdAccessToken,
-        //        ClientSecret = clientSecret,
-        //        Audience = audience,
-        //        ClientId = clientId,
-        //        EndpointUrl = "/connect/token",
-        //        GrantExchangeHttpClient = tokenExchangeHttpClient
-        //    }, _logger);
 
         if (tokenExchangeSuccessResponse != null)
         {
