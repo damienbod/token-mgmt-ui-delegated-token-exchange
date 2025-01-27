@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
+using OAuthGrantExchangeIntegration.Server;
 using Serilog;
 
 namespace IdentityProvider;
@@ -29,6 +30,9 @@ internal static class HostingExtensions
         builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+        builder.Services.Configure<OauthTokenExchangeConfiguration>(
+            builder.Configuration.GetSection("TokenExchangeConfiguration"));
 
         var shopclientUIUrl = builder.Configuration["ShopClientUIUrl"];
 
