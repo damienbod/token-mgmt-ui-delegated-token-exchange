@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "WebApi": {
+    "WebApiDuende": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
