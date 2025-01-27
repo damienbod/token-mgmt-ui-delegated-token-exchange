@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Identity.Web;
-using System.Collections.Generic;
+using Microsoft.IdentityModel.Tokens;
 using System.Threading.Tasks;
 
 namespace RazorPageEntraId.Pages;
@@ -10,7 +11,8 @@ public class CallApiModel : PageModel
 {
     private readonly WebApiEntraIdService _apiService;
 
-    public string? DataFromApi { get; set; }
+    [BindProperty]
+    public byte[] Photo { get; set; } = [];
 
     public CallApiModel(WebApiEntraIdService apiService)
     {
@@ -19,6 +21,10 @@ public class CallApiModel : PageModel
 
     public async Task OnGetAsync()
     {
-        DataFromApi = await _apiService.GetWebApiEntraIdDataAsync();
+        var photo = await _apiService.GetWebApiEntraIdDataAsync();
+        if (!string.IsNullOrEmpty(photo))
+        {
+            Photo = Base64UrlEncoder.DecodeBytes(photo);
+        }  
     }
 }
