@@ -55,9 +55,9 @@ internal static class StartupExtensions
 
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = "Azure APP",
+                Title = "Entra ID APP",
                 Version = "v1",
-                Description = "Azure API",
+                Description = "Entra ID API",
                 Contact = new OpenApiContact
                 {
                     Name = "damienbod",
@@ -99,7 +99,7 @@ internal static class StartupExtensions
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Azure API");
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "Entra ID API");
             c.RoutePrefix = string.Empty;
         });
 
