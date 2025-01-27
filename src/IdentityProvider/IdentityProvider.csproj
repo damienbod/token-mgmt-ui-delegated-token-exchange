@@ -38,4 +38,8 @@
     
 		<PackageReference Include="Magick.NET-Q16-AnyCPU" Version="14.4.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\OAuthGrantExchangeIntegration\OAuthGrantExchangeIntegration.csproj" />
+	</ItemGroup>
 </Project>

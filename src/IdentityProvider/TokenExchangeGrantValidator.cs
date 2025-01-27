@@ -4,16 +4,24 @@ using Duende.IdentityModel;
 using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Validation;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols;
+using OAuthGrantExchangeIntegration.Server;
+using Microsoft.Extensions.Options;
+using OAuthGrantExchangeIntegration;
 
 namespace IdentityProvider;
 
 public class TokenExchangeGrantValidator : IExtensionGrantValidator
 {
     private readonly ITokenValidator _validator;
+    private readonly OauthTokenExchangeConfiguration _oauthTokenExchangeConfigurationConfiguration;
 
-    public TokenExchangeGrantValidator(ITokenValidator validator)
+    public TokenExchangeGrantValidator(ITokenValidator validator,
+        IOptions<OauthTokenExchangeConfiguration> oauthTokenExchangeConfigurationConfiguration)
     {
         _validator = validator;
+        _oauthTokenExchangeConfigurationConfiguration = oauthTokenExchangeConfigurationConfiguration.Value;
     }
 
     public async Task ValidateAsync(ExtensionGrantValidationContext context)
@@ -27,7 +35,14 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
 
         var subjectToken = context.Request.Raw.Get(OidcConstants.TokenRequest.SubjectToken);
         var subjectTokenType = context.Request.Raw.Get(OidcConstants.TokenRequest.SubjectTokenType);
-
+        var oauthTokenExchangePayload = new OauthTokenExchangePayload
+        {
+            subject_token = subjectToken!,
+            subject_token_type = subjectTokenType!,
+            audience = context.Request.Raw.Get(OidcConstants.TokenRequest.Audience),
+            grant_type = context.Request.Raw.Get(OidcConstants.TokenRequest.GrantType)!,
+            scope = context.Request.Raw.Get(OidcConstants.TokenRequest.Scope),
+        };
         // mandatory parameters
         if (string.IsNullOrWhiteSpace(subjectToken))
         {
@@ -39,15 +54,62 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
             return;
         }
 
+        /////////
         // TODO Validate Entra ID token
-        var validationResult = await _validator.ValidateAccessTokenAsync(subjectToken);
-        if (validationResult.IsError)
+
+        var (Valid, Reason, Error) = ValidateOauthTokenExchangeRequestPayload
+           .IsValid(oauthTokenExchangePayload, _oauthTokenExchangeConfigurationConfiguration);
+
+        if (!Valid)
         {
-            return;
+            return; // UnauthorizedValidationParametersFailed(oauthTokenExchangePayload, Reason, Error);
         }
 
-        var sub = validationResult.Claims!.First(c => c.Type == JwtClaimTypes.Subject).Value;
-        var clientId = validationResult.Claims!.First(c => c.Type == JwtClaimTypes.ClientId).Value;
+        // get well known endpoints and validate access token sent in the assertion
+        var configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(
+            _oauthTokenExchangeConfigurationConfiguration.AccessTokenMetadataAddress,
+            new OpenIdConnectConfigurationRetriever());
+
+        var wellKnownEndpoints = await configurationManager.GetConfigurationAsync();
+
+        var accessTokenValidationResult = await ValidateOauthTokenExchangeRequestPayload.ValidateTokenAndSignature(
+            subjectToken,
+            _oauthTokenExchangeConfigurationConfiguration,
+            wellKnownEndpoints.SigningKeys);
+
+        if (!accessTokenValidationResult.Valid)
+        {
+            return; // UnauthorizedValidationTokenAndSignatureFailed(oauthTokenExchangePayload, accessTokenValidationResult);
+        }
+
+        // get claims from Microsoft Entra ID token and re use in OpenIddict token
+        var claimsIdentity = accessTokenValidationResult.ClaimsIdentity;
+
+        var isDelegatedToken = ValidateOauthTokenExchangeRequestPayload.IsDelegatedAadAccessToken(claimsIdentity);
+
+        if (!isDelegatedToken)
+        {
+            return; // UnauthorizedValidationRequireDelegatedTokenFailed();
+        }
+
+        var name = ValidateOauthTokenExchangeRequestPayload.GetPreferredUserName(claimsIdentity);
+        var isNameAndEmail = ValidateOauthTokenExchangeRequestPayload.IsEmailValid(name);
+        if (!isNameAndEmail)
+        {
+            return; // UnauthorizedValidationPrefferedUserNameFailed();
+        }
+
+        // validate user exists TODO
+        //var user = await _userManager.FindByNameAsync(name);
+        //if (user == null)
+        //{
+        //    return UnauthorizedValidationNoUserExistsFailed();
+        //}
+
+        /////////
+
+        var sub = claimsIdentity.Claims!.First(c => c.Type == JwtClaimTypes.Subject).Value;
+        var clientId = claimsIdentity.Claims!.First(c => c.Type == JwtClaimTypes.ClientId).Value;
 
         var style = context.Request.Raw.Get("exchange_style");
 
@@ -89,6 +151,5 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
     }
 
     public string GrantType => OidcConstants.GrantTypes.TokenExchange;
-
 
 }

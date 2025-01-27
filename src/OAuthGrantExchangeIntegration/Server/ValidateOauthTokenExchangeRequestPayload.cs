@@ -23,7 +23,7 @@ public static class ValidateOauthTokenExchangeRequestPayload
 
         if (!oauthTokenExchangePayload.audience!.Equals(oauthTokenExchangeConfiguration.Audience))
         {
-            return (false, "obo client_id parameter has an incorrect value",
+            return (false, "OAuth grant exchange client_id parameter has an incorrect value",
                 OAuthGrantExchangeConsts.ERROR_INVALID_CLIENT);
         };
 
