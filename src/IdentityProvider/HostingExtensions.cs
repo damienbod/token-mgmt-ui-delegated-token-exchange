@@ -31,8 +31,8 @@ internal static class HostingExtensions
             .AddDefaultTokenProviders();
 
         var shopclientUIUrl = builder.Configuration["ShopClientUIUrl"];
-        var adminclientUIUrl = builder.Configuration["AdminClientUIUrl"];
-        builder.Services
+
+        var idsvrBuilder = builder.Services
             .AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -46,8 +46,10 @@ internal static class HostingExtensions
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients(shopclientUIUrl!))
-            .AddExtensionGrantValidator<IExtensionGrantValidator>()
             .AddAspNetIdentity<ApplicationUser>();
+
+        // registers extension grant validator for the token exchange grant type
+        idsvrBuilder.AddExtensionGrantValidator<TokenExchangeGrantValidator>();
 
         builder.Services.AddDistributedMemoryCache();
 
