@@ -13,7 +13,7 @@ try
 
     builder.Host.UseSerilog((context, loggingConfiguration) => loggingConfiguration
         .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
-        .WriteTo.File("../../_logs-api-azure-auth-api.txt")
+        .WriteTo.File("../../_logs-WebApiEntraId.txt")
         .Enrich.FromLogContext()
         .ReadFrom.Configuration(context.Configuration));
 

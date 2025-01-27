@@ -9,7 +9,7 @@ public class ApiTokenCacheClient
 {
     private readonly ILogger<ApiTokenCacheClient> _logger;
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly IOptions<WebApiDuendeConfig> _downstreamApiConfigurations;
+    private readonly IOptions<WebApiDuendeConfig> _webApiDuendeConfig;
 
     private static readonly object _lock = new();
     private readonly IDistributedCache _cache;
@@ -23,12 +23,12 @@ public class ApiTokenCacheClient
     }
 
     public ApiTokenCacheClient(
-        IOptions<WebApiDuendeConfig> downstreamApiConfigurations,
+        IOptions<WebApiDuendeConfig> webApiDuendeConfig,
         IHttpClientFactory httpClientFactory,
         ILoggerFactory loggerFactory,
         IDistributedCache cache)
     {
-        _downstreamApiConfigurations = downstreamApiConfigurations;
+        _webApiDuendeConfig = webApiDuendeConfig;
         _httpClientFactory = httpClientFactory;
         _logger = loggerFactory.CreateLogger<ApiTokenCacheClient>();
         _cache = cache;
@@ -63,7 +63,7 @@ public class ApiTokenCacheClient
         string entraIdAccessToken)
     {
         var tokenExchangeHttpClient = _httpClientFactory.CreateClient();
-        tokenExchangeHttpClient.BaseAddress = new Uri(_downstreamApiConfigurations.Value.IdentityProviderUrl);
+        tokenExchangeHttpClient.BaseAddress = new Uri(_webApiDuendeConfig.Value.IdentityProviderUrl);
 
         var tokenExchangeSuccessResponse = await RequestDelegatedAccessToken.GetDelegatedApiTokenTokenExchange(
             new GetDelegatedApiTokenOAuthTokenExchangeModel
