@@ -73,7 +73,7 @@ public class ApiTokenCacheClient
                 ClientSecret = clientSecret,
                 Audience = audience,
                 ClientId = clientId,
-                EndpointUrl = "/connect/oauthTokenExchangetoken",
+                EndpointUrl = "/connect/token",
                 GrantExchangeHttpClient = tokenExchangeHttpClient
             }, _logger);
 

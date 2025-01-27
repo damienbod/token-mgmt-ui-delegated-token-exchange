@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityModel;
+using Duende.IdentityServer.Models;
 
 namespace IdentityProvider;
 
@@ -17,6 +18,15 @@ public static class Config
 
     public static IEnumerable<Client> Clients(string shopClientUIUrl) =>
     [
+        // represents the client that is delegating the access token
+        new Client
+        {
+            ClientId = "tokenexchangeclientid",
+            ClientSecrets = { new Secret("--in-user-secrets--".Sha256()) },
+
+            AllowedGrantTypes = { OidcConstants.GrantTypes.TokenExchange },
+            AllowedScopes = { "shopclientscope" }
+        }
         // ShopClientUI application interactive client using code flow + pkce
         //new Client
         //{
