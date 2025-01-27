@@ -30,6 +30,7 @@ namespace WebApiEntraId.Controllers
                 .ToString().Replace("Bearer ", string.Empty);
 
             var dataWebApiDuende = await _apiService.GetWebApiDuendeDataAsync(entraIdBearerToken);
+
             return dataWebApiDuende;
         }
     }
