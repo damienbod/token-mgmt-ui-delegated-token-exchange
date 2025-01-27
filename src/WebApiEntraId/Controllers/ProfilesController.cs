@@ -10,7 +10,7 @@ namespace WebApiEntraId.Controllers
     [Authorize]
     [AuthorizeForScopes(Scopes = ["api://72286b8d-5010-4632-9cea-e69e565a5517/user_impersonation"])]
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProfilesController : ControllerBase
     {
         private readonly WebApiDuendeService _apiService;
@@ -20,7 +20,8 @@ namespace WebApiEntraId.Controllers
             _apiService = apiService;
         }
 
-        [HttpGet]
+        [Produces(typeof(string))]
+        [HttpGet("photo")]
         public async Task<string> Get()
         {
             var scopeRequiredByApi = new string[] { "access_as_user" };

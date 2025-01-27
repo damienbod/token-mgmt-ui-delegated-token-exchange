@@ -15,7 +15,7 @@ public static class Config
         new ApiScope("shopclientscope")
     ];
 
-    public static IEnumerable<Client> Clients(string shopClientUIUrl, string adminClientUIUrl) =>
+    public static IEnumerable<Client> Clients(string shopClientUIUrl) =>
     [
         // ShopClientUI application interactive client using code flow + pkce
         //new Client

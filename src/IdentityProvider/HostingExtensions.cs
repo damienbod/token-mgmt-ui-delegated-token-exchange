@@ -44,7 +44,7 @@ internal static class HostingExtensions
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients(shopclientUIUrl!, adminclientUIUrl!))
+            .AddInMemoryClients(Config.Clients(shopclientUIUrl!))
             .AddAspNetIdentity<ApplicationUser>();
 
         builder.Services.AddDistributedMemoryCache();
@@ -89,15 +89,13 @@ internal static class HostingExtensions
                   return SecurityHeadersDefinitionsWeakened.GetHeaderPolicyCollection(
                       builder.Environment.IsDevelopment(),
                       builder.Configuration["AzureAd:Instance"],
-                      builder.Configuration["ShopClientUIUrl"]!,
-                      builder.Configuration["AdminClientUIUrl"]!);
+                      builder.Configuration["ShopClientUIUrl"]!);
               }
 
               return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
                   builder.Environment.IsDevelopment(),
                   builder.Configuration["AzureAd:Instance"],
-                  builder.Configuration["ShopClientUIUrl"]!,
-                  builder.Configuration["AdminClientUIUrl"]!);
+                  builder.Configuration["ShopClientUIUrl"]!);
           });
 
         return builder.Build();
