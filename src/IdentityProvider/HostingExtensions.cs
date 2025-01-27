@@ -1,3 +1,4 @@
+using Duende.IdentityServer.AspNetIdentity;
 using IdentityProvider.Data;
 using IdentityProvider.Models;
 using IdentityProvider.Services;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Web;
+using Microsoft.IdentityModel.Logging;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using OAuthGrantExchangeIntegration.Server;
 using Serilog;
@@ -90,11 +92,16 @@ internal static class HostingExtensions
                   builder.Configuration["AzureAd:Instance"]);
           });
 
+        // register a profile service to emit the act claim
+        idsvrBuilder.AddProfileService<ProfileService>();
+
         return builder.Build();
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
     {
+        IdentityModelEventSource.ShowPII = true;
+
         app.UseSerilogRequestLogging();
 
         if (app.Environment.IsDevelopment())

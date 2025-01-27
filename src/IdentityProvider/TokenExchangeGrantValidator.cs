@@ -82,7 +82,7 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
             return; // UnauthorizedValidationTokenAndSignatureFailed(oauthTokenExchangePayload, accessTokenValidationResult);
         }
 
-        // get claims from Microsoft Entra ID token and re use in OpenIddict token
+        // get claims from Microsoft Entra ID token and re use in Duende IDP token
         var claimsIdentity = accessTokenValidationResult.ClaimsIdentity;
         if (claimsIdentity == null)
         {

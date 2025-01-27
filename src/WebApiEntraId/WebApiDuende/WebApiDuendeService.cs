@@ -42,8 +42,7 @@ public class WebApiDuendeService
             var response = await client.GetAsync("api/profiles/photo");
             if (response.IsSuccessStatusCode)
             {
-                var data = await JsonSerializer.DeserializeAsync<string>(
-                    await response.Content.ReadAsStreamAsync());
+                var data = await response.Content.ReadAsStringAsync();
 
                 if (data != null)
                 {

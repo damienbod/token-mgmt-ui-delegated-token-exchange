@@ -1,27 +1,26 @@
 ﻿using Serilog;
+using System.Globalization;
 using WebApiEntraId;
 
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
+    .WriteTo.Console(formatProvider: CultureInfo.InvariantCulture)
     .CreateBootstrapLogger();
 
-Log.Information("Starting up API");
+Log.Information("Starting WebApiEntraId");
 
 try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Host.UseSerilog((context, loggingConfiguration) => loggingConfiguration
-        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
-        .WriteTo.File("../../_logs-WebApiEntraId.txt")
-        .Enrich.FromLogContext()
+    builder.Host.UseSerilog((context, loggerConfiguration) => loggerConfiguration
+        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}", formatProvider: CultureInfo.InvariantCulture)
         .ReadFrom.Configuration(context.Configuration));
 
     var app = builder
         .ConfigureServices()
         .ConfigurePipeline();
 
-    app.Run();
+    await app.RunAsync();
 }
 catch (Exception ex) when (ex.GetType().Name is not "StopTheHostException" && ex.GetType().Name is not "HostAbortedException")
 {
@@ -30,5 +29,5 @@ catch (Exception ex) when (ex.GetType().Name is not "StopTheHostException" && ex
 finally
 {
     Log.Information("Shut down complete");
-    Log.CloseAndFlush();
+    await Log.CloseAndFlushAsync();
 }
