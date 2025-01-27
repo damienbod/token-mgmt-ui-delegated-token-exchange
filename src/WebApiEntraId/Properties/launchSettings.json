@@ -3,7 +3,7 @@
     "WebApiEntraId": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "WebApiEntraId",
+      "launchUrl": "",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

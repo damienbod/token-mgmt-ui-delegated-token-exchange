@@ -398,3 +398,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/_logs-WebApiEntraId.txt
+/src/_logs-IdentityProvider.txt
