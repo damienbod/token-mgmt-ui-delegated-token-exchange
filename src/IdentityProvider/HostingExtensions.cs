@@ -1,3 +1,4 @@
+using Duende.IdentityServer.Validation;
 using IdentityProvider.Data;
 using IdentityProvider.Models;
 using IdentityProvider.Services;
@@ -45,6 +46,7 @@ internal static class HostingExtensions
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients(shopclientUIUrl!))
+            .AddExtensionGrantValidator<IExtensionGrantValidator>()
             .AddAspNetIdentity<ApplicationUser>();
 
         builder.Services.AddDistributedMemoryCache();
