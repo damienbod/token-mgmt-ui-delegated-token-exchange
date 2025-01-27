@@ -401,3 +401,4 @@ FodyWeavers.xsd
 /_logs-WebApiEntraId.txt
 /src/_logs-IdentityProvider.txt
 /_logs-WebApiEntraI**
+/LogFiles/**

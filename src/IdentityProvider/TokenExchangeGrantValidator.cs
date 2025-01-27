@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Protocols;
 using OAuthGrantExchangeIntegration.Server;
 using Microsoft.Extensions.Options;
 using OAuthGrantExchangeIntegration;
+using IdentityProvider.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace IdentityProvider;
 
@@ -16,12 +18,15 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
 {
     private readonly ITokenValidator _validator;
     private readonly OauthTokenExchangeConfiguration _oauthTokenExchangeConfiguration;
+    private readonly UserManager<ApplicationUser> _userManager;
 
     public TokenExchangeGrantValidator(ITokenValidator validator,
-        IOptions<OauthTokenExchangeConfiguration> oauthTokenExchangeConfiguration)
+        IOptions<OauthTokenExchangeConfiguration> oauthTokenExchangeConfiguration,
+        UserManager<ApplicationUser> userManager)
     {
         _validator = validator;
         _oauthTokenExchangeConfiguration = oauthTokenExchangeConfiguration.Value;
+        _userManager = userManager;
     }
 
     public async Task ValidateAsync(ExtensionGrantValidationContext context)
@@ -102,15 +107,15 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
         var isNameAndEmail = ValidateOauthTokenExchangeRequestPayload.IsEmailValid(name);
         if (!isNameAndEmail)
         {
-            return; // UnauthorizedValidationPrefferedUserNameFailed();
+            return; // UnauthorizedValidationPreferredUserNameFailed();
         }
 
-        // validate user exists TODO
-        //var user = await _userManager.FindByNameAsync(name);
-        //if (user == null)
-        //{
-        //    return UnauthorizedValidationNoUserExistsFailed();
-        //}
+        // Should use the OID
+        var user = await _userManager.FindByNameAsync(name);
+        if (user == null)
+        {
+            return; // UnauthorizedValidationNoUserExistsFailed();
+        }
 
         /////////
 
