@@ -32,8 +32,6 @@ internal static class HostingExtensions
         builder.Services.Configure<OauthTokenExchangeConfiguration>(
             builder.Configuration.GetSection("TokenExchangeConfiguration"));
 
-        var shopclientUIUrl = builder.Configuration["ShopClientUIUrl"];
-
         var idsvrBuilder = builder.Services
             .AddIdentityServer(options =>
             {
@@ -47,7 +45,7 @@ internal static class HostingExtensions
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients(shopclientUIUrl!))
+            .AddInMemoryClients(Config.Clients())
             .AddAspNetIdentity<ApplicationUser>();
 
         // registers extension grant validator for the token exchange grant type
@@ -84,14 +82,12 @@ internal static class HostingExtensions
               {
                   return SecurityHeadersDefinitionsWeakened.GetHeaderPolicyCollection(
                       builder.Environment.IsDevelopment(),
-                      builder.Configuration["AzureAd:Instance"],
-                      builder.Configuration["ShopClientUIUrl"]!);
+                      builder.Configuration["AzureAd:Instance"]);
               }
 
               return SecurityHeadersDefinitions.GetHeaderPolicyCollection(
                   builder.Environment.IsDevelopment(),
-                  builder.Configuration["AzureAd:Instance"],
-                  builder.Configuration["ShopClientUIUrl"]!);
+                  builder.Configuration["AzureAd:Instance"]);
           });
 
         return builder.Build();

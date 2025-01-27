@@ -16,7 +16,7 @@ public static class Config
         new ApiScope("shopclientscope")
     ];
 
-    public static IEnumerable<Client> Clients(string shopClientUIUrl) =>
+    public static IEnumerable<Client> Clients() =>
     [
         // represents the client that is delegating the access token
         new Client
@@ -27,20 +27,5 @@ public static class Config
             AllowedGrantTypes = { OidcConstants.GrantTypes.TokenExchange },
             AllowedScopes = { "shopclientscope" }
         }
-        // ShopClientUI application interactive client using code flow + pkce
-        //new Client
-        //{
-        //    ClientId = "shop-client-ui",
-        //    ClientSecrets = { new Secret("48C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-
-        //    AllowedGrantTypes = GrantTypes.Code,
-
-        //    RedirectUris = { $"{shopClientUIUrl}/signin-oidc" },
-        //    FrontChannelLogoutUri = $"{shopClientUIUrl}/signout-oidc",
-        //    PostLogoutRedirectUris = { $"{shopClientUIUrl}/signout-callback-oidc" },
-
-        //    AllowOfflineAccess = true,
-        //    AllowedScopes = { "openid", "profile", "shopclientscope" }
-        //}
     ];
 }
