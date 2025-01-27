@@ -107,9 +107,9 @@ internal sealed class BearerSecuritySchemeTransformer(IAuthenticationSchemeProvi
         }
         document.Info = new()
         {
-            Title = "My API Bearer scheme",
+            Title = "Duende API Bearer scheme",
             Version = "v1",
-            Description = "API for Damien"
+            Description = "Duende API"
         };
     }
 }
