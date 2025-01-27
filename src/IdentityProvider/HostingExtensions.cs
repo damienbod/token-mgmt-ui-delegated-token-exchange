@@ -1,8 +1,6 @@
-using Duende.IdentityServer.Validation;
 using IdentityProvider.Data;
 using IdentityProvider.Models;
 using IdentityProvider.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -75,16 +73,6 @@ internal static class HostingExtensions
             .EnableTokenAcquisitionToCallDownstreamApi(["User.Read"])
             .AddMicrosoftGraph()
             .AddDistributedTokenCaches();
-
-        builder.Services.AddAuthentication()
-            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-             {
-                 var oauthConfig = builder.Configuration.GetSection("ProfileApiConfigurations");
-                 options.Authority = oauthConfig["Authority"];
-                 options.Audience = oauthConfig["Audience"];
-                 options.MapInboundClaims = false;
-                 options.TokenValidationParameters.ValidTypes = ["at+jwt"];
-             });
 
         builder.Services.AddControllers();
 
