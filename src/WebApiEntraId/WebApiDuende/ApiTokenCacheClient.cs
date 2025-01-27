@@ -60,7 +60,7 @@ public class ApiTokenCacheClient
         string audience,
         string scope,
         string clientSecret,
-        string aadAccessToken)
+        string entraIdAccessToken)
     {
         var tokenExchangeHttpClient = _httpClientFactory.CreateClient();
         tokenExchangeHttpClient.BaseAddress = new Uri(_downstreamApiConfigurations.Value.IdentityProviderUrl);
@@ -69,7 +69,7 @@ public class ApiTokenCacheClient
             new GetDelegatedApiTokenOAuthTokenExchangeModel
             {
                 Scope = scope,
-                AccessToken = aadAccessToken,
+                AccessToken = entraIdAccessToken,
                 ClientSecret = clientSecret,
                 Audience = audience,
                 ClientId = clientId,
