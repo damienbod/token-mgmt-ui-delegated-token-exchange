@@ -84,8 +84,13 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
 
         // get claims from Microsoft Entra ID token and re use in OpenIddict token
         var claimsIdentity = accessTokenValidationResult.ClaimsIdentity;
+        if (claimsIdentity == null)
+        {
+            return;
+        }
 
-        var isDelegatedToken = ValidateOauthTokenExchangeRequestPayload.IsDelegatedAadAccessToken(claimsIdentity);
+        var isDelegatedToken = ValidateOauthTokenExchangeRequestPayload
+            .IsDelegatedAadAccessToken(claimsIdentity);
 
         if (!isDelegatedToken)
         {
@@ -93,6 +98,7 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
         }
 
         var name = ValidateOauthTokenExchangeRequestPayload.GetPreferredUserName(claimsIdentity);
+
         var isNameAndEmail = ValidateOauthTokenExchangeRequestPayload.IsEmailValid(name);
         if (!isNameAndEmail)
         {
