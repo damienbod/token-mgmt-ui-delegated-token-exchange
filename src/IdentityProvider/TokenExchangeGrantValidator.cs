@@ -39,6 +39,7 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
             return;
         }
 
+        // TODO Validate Entra ID token
         var validationResult = await _validator.ValidateAccessTokenAsync(subjectToken);
         if (validationResult.IsError)
         {
