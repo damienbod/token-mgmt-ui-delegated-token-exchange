@@ -34,7 +34,7 @@ public class WebApiEntraIdService
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        var response = await client.GetAsync("api/profiles/photo");
+        var response = await client.GetAsync("/api/profiles/photo");
         if (response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadFromJsonAsync<string>();
