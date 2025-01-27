@@ -115,14 +115,13 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
         /////////
 
         var sub = claimsIdentity.Claims!.First(c => c.Type == JwtClaimTypes.Subject).Value;
-        var clientId = claimsIdentity.Claims!.First(c => c.Type == JwtClaimTypes.ClientId).Value;
 
         var style = context.Request.Raw.Get("exchange_style");
 
         if (style == "impersonation")
         {
             // set token client_id to original id
-            context.Request.ClientId = clientId;
+            context.Request.ClientId = oauthTokenExchangePayload.audience!;
 
             context.Result = new GrantValidationResult(
                 subject: sub,
@@ -132,14 +131,15 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
         else if (style == "delegation")
         {
             // set token client_id to original id
-            context.Request.ClientId = clientId;
+            context.Request.ClientId = oauthTokenExchangePayload.audience!;
 
             var actor = new
             {
                 client_id = context.Request.Client.ClientId
             };
 
-            var actClaim = new Claim(JwtClaimTypes.Actor, JsonSerializer.Serialize(actor), IdentityServerConstants.ClaimValueTypes.Json);
+            var actClaim = new Claim(JwtClaimTypes.Actor, JsonSerializer.Serialize(actor), 
+                IdentityServerConstants.ClaimValueTypes.Json);
 
             context.Result = new GrantValidationResult(
                 subject: sub,
