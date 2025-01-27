@@ -28,13 +28,13 @@ public class WebApiEntraIdService
         var client = _clientFactory.CreateClient();
 
         var scope = _configuration["WebApiEntraId:ScopeForAccessToken"];
-        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync(new[] { scope! });
+        var accessToken = await _tokenAcquisition.GetAccessTokenForUserAsync([scope!]);
 
         client.BaseAddress = new Uri(_configuration["WebApiEntraId:ApiBaseAddress"]!);
         client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-        var response = await client.GetAsync("myapi");
+        var response = await client.GetAsync("profiles/photo");
         if (response.IsSuccessStatusCode)
         {
             var responseContent = await response.Content.ReadFromJsonAsync<string>();
