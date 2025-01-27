@@ -1,4 +1,3 @@
-using RazorPageEntraId;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -7,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using RazorPageEntraId;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +18,7 @@ builder.Services.AddOptions();
 string[]? initialScopes = builder.Configuration.GetValue<string>("WebApiEntraId:ScopeForAccessToken")?.Split(' ');
 
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "EntraId", 
+builder.Services.AddMicrosoftIdentityWebAppAuthentication(builder.Configuration, "EntraId",
         subscribeToOpenIdConnectMiddlewareDiagnosticsEvents: true)
     .EnableTokenAcquisitionToCallDownstreamApi(initialScopes)
     .AddDistributedTokenCaches();

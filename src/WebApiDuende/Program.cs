@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.OpenApi;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using WebApiDuende;
@@ -18,11 +17,11 @@ builder.Services.AddSecurityHeaderPolicies()
     {
         // sum is weak security headers due to Swagger UI deployment
         // should only use in development
-        if (deploySwaggerUI) 
+        if (deploySwaggerUI)
         {
             // Weakened security headers for Swagger UI
             if (ctx.HttpContext.Request.Path.StartsWithSegments("/swagger"))
-            {               
+            {
                 return SecurityHeadersDefinitionsSwagger.GetHeaderPolicyCollection(isDev);
             }
 

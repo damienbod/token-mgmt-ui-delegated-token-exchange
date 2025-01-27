@@ -1,5 +1,5 @@
-﻿using WebApiEntraId;
-using Serilog;
+﻿using Serilog;
+using WebApiEntraId;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
