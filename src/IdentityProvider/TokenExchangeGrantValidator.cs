@@ -15,13 +15,13 @@ namespace IdentityProvider;
 public class TokenExchangeGrantValidator : IExtensionGrantValidator
 {
     private readonly ITokenValidator _validator;
-    private readonly OauthTokenExchangeConfiguration _oauthTokenExchangeConfigurationConfiguration;
+    private readonly OauthTokenExchangeConfiguration _oauthTokenExchangeConfiguration;
 
     public TokenExchangeGrantValidator(ITokenValidator validator,
-        IOptions<OauthTokenExchangeConfiguration> oauthTokenExchangeConfigurationConfiguration)
+        IOptions<OauthTokenExchangeConfiguration> oauthTokenExchangeConfiguration)
     {
         _validator = validator;
-        _oauthTokenExchangeConfigurationConfiguration = oauthTokenExchangeConfigurationConfiguration.Value;
+        _oauthTokenExchangeConfiguration = oauthTokenExchangeConfiguration.Value;
     }
 
     public async Task ValidateAsync(ExtensionGrantValidationContext context)
@@ -58,7 +58,7 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
         // TODO Validate Entra ID token
 
         var (Valid, Reason, Error) = ValidateOauthTokenExchangeRequestPayload
-           .IsValid(oauthTokenExchangePayload, _oauthTokenExchangeConfigurationConfiguration);
+           .IsValid(oauthTokenExchangePayload, _oauthTokenExchangeConfiguration);
 
         if (!Valid)
         {
@@ -67,14 +67,14 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
 
         // get well known endpoints and validate access token sent in the assertion
         var configurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(
-            _oauthTokenExchangeConfigurationConfiguration.AccessTokenMetadataAddress,
+            _oauthTokenExchangeConfiguration.AccessTokenMetadataAddress,
             new OpenIdConnectConfigurationRetriever());
 
         var wellKnownEndpoints = await configurationManager.GetConfigurationAsync();
 
         var accessTokenValidationResult = await ValidateOauthTokenExchangeRequestPayload.ValidateTokenAndSignature(
             subjectToken,
-            _oauthTokenExchangeConfigurationConfiguration,
+            _oauthTokenExchangeConfiguration,
             wellKnownEndpoints.SigningKeys);
 
         if (!accessTokenValidationResult.Valid)
