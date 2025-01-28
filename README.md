@@ -9,6 +9,16 @@
 - [ASP.NET Core user delegated access token management](https://damienbod.com/2025/01/15/asp-net-core-user-delegated-access-token-management/)
 - [ASP.NET Core user application access token management](https://damienbod.com/2025/01/20/asp-net-core-user-application-access-token-management/)
 
+- ## Migrations
+
+```
+Add-Migration "InitIdentityNew" -c ApplicationDbContext
+```
+
+```
+Update-Database
+```
+
 ## Links
 
 https://damienbod.com/2023/01/09/implement-the-oauth-2-0-token-exchange-delegated-flow-between-an-azure-ad-api-and-an-api-protected-using-openiddict/
