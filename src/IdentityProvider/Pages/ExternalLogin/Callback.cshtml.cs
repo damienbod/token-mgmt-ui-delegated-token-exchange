@@ -134,7 +134,8 @@ public class Callback : PageModel
         var user = new ApplicationUser
         {
             Id = sub.ToString()!,
-            UserName = sub.ToString(), 
+            UserName = sub.ToString(),
+            EntraIdOid = sub
         };
 
         // email
@@ -142,6 +143,7 @@ public class Callback : PageModel
         if (email != null)
         {
             user.Email = email;
+            user.UserName = email;
         }
 
         // tid

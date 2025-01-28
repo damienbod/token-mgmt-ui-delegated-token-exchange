@@ -2,6 +2,7 @@
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
+using OAuthGrantExchangeIntegration.Server;
 using System.Security.Claims;
 
 namespace IdentityProvider;
@@ -73,6 +74,17 @@ public class ProfileService : IProfileService
         if (email != null)
         {
             return email.Value;
+        }
+
+        email = claims.FirstOrDefault(t => t.Type == "preferred_username");
+        
+        if (email != null)
+        {
+            var isNameAndEmail = ValidateOauthTokenExchangeRequestPayload.IsEmailValid(email.Value);
+            if(isNameAndEmail)
+            {
+                return email.Value;
+            }
         }
 
         return null;
