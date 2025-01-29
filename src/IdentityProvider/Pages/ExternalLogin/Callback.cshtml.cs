@@ -51,7 +51,6 @@ public class Callback : PageModel
         {
             throw new InvalidOperationException($"External authentication error: {result.Failure}");
         }
-
         var externalUser = result.Principal ??
             throw new InvalidOperationException("External authentication produced a null Principal");
 
@@ -77,15 +76,30 @@ public class Callback : PageModel
 
         if (user == null)
         {
-            var photo = string.Empty;
-            if (provider == "EntraID")
+            var oid = ProfileService.GetOid(externalUser.Claims);
+            user = await _userManager.FindByIdAsync(oid.ToString()!);
+            if (user != null)
             {
-                photo = await _msGraphDelegatedService.GetPhotoAsync(externalUser);
+                var identityResult = await _userManager
+                    .AddLoginAsync(user, new UserLoginInfo(provider, providerUserId, provider));
+
+                if (!identityResult.Succeeded)
+                {
+                    throw new InvalidOperationException(identityResult.Errors.First().Description);
+                }
             }
-            // this might be where you might initiate a custom workflow for user registration
-            // in this sample we don't show how that would be done, as our sample implementation
-            // simply auto-provisions new external user
-            user = await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims, photo);
+            else
+            {
+                var photo = string.Empty;
+                if (provider == "EntraID")
+                {
+                    photo = await _msGraphDelegatedService.GetPhotoAsync(externalUser);
+                }
+                // this might be where you might initiate a custom workflow for user registration
+                // in this sample we don't show how that would be done, as our sample implementation
+                // simply auto-provisions new external user
+                user = await AutoProvisionUserAsync(provider, providerUserId, externalUser.Claims, photo);
+            }
         }
 
         // this allows us to collect any additional claims or properties
