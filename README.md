@@ -19,6 +19,10 @@ Add-Migration "InitIdentityNew" -c ApplicationDbContext
 Update-Database
 ```
 
+## History
+
+- 2025-01-30 Initial version
+
 ## Links
 
 https://damienbod.com/2023/01/09/implement-the-oauth-2-0-token-exchange-delegated-flow-between-an-azure-ad-api-and-an-api-protected-using-openiddict/
