@@ -14,6 +14,9 @@ using Microsoft.AspNetCore.Identity;
 
 namespace IdentityProvider;
 
+/// <summary>
+/// TODO add logs with errors
+/// </summary>
 public class TokenExchangeGrantValidator : IExtensionGrantValidator
 {
     private readonly ITokenValidator _validator;
