@@ -1,5 +1,7 @@
 # token-mgmt-ui-delegated-token-exchange
 
+[![.NET](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml)
+
 ## Setup
 
 ![ASP.NET Core access token management](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/blob/main/images/context.png)
