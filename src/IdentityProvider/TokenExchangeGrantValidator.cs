@@ -59,9 +59,6 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
             return;
         }
 
-        /////////
-        // TODO Validate Entra ID token
-
         var (Valid, Reason, Error) = ValidateOauthTokenExchangeRequestPayload
            .IsValid(oauthTokenExchangePayload, _oauthTokenExchangeConfiguration);
 
@@ -116,8 +113,6 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
         {
             return; // UnauthorizedValidationNoUserExistsFailed();
         }
-
-        /////////
 
         var sub = claimsIdentity.Claims!.First(c => c.Type == JwtClaimTypes.Subject).Value;
 
