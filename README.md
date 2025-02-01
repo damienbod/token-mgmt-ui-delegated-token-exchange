@@ -11,7 +11,8 @@
 - [ASP.NET Core user delegated access token management](https://damienbod.com/2025/01/15/asp-net-core-user-delegated-access-token-management/)
 - [ASP.NET Core user application access token management](https://damienbod.com/2025/01/20/asp-net-core-user-application-access-token-management/)
 
-- ## Migrations
+
+## Migrations
 
 ```
 Add-Migration "InitIdentityNew" -c ApplicationDbContext
