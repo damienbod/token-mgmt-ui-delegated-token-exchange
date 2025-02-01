@@ -160,5 +160,4 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
     }
 
     public string GrantType => OidcConstants.GrantTypes.TokenExchange;
-
 }
