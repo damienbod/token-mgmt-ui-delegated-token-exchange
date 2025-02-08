@@ -1,4 +1,6 @@
-# token-mgmt-ui-delegated-token-exchange
+# ASP.NET Core delegated OAuth Token Exchange access token management
+
+ASP.NET Core implementation of the OAuth 2.0 Token Exchange RFC 8693 standard using Entra ID and Duende IdentityServer.
 
 [![.NET](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml) [![.NET](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml)
 
