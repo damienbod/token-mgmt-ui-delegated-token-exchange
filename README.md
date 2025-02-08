@@ -1,8 +1,10 @@
 # token-mgmt-ui-delegated-token-exchange
 
-[![.NET](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml) [![.NET](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml/badge.svg)](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/actions/workflows/dotnet.yml)
 
 ## Setup
+
+Overview of applications used in this flow
 
 ![ASP.NET Core access token management](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/blob/main/images/context.png)
 
@@ -22,7 +24,7 @@ Add-Migration "InitIdentityNew" -c ApplicationDbContext
 Update-Database
 ```
 
-## Further examples of OAuth Token exchange RFC 8693
+## Further examples of OAuth 2.0 Token Exchange RFC 8693
 
 OAuth 2.0 Token Exchange delegated implementation with Microsoft Entra ID and OpenIddict (RFC 8693)
 
