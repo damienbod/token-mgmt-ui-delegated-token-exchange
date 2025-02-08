@@ -75,7 +75,7 @@ https://github.com/blowdart/idunno.Authentication/tree/dev/src/idunno.Authentica
 
 [Microsoft identity platform and OAuth 2.0 On-Behalf-Of flow](/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow)
 
-[OAuth 2.0 Token Exchange](https://datatracker.ietf.org/doc/html/rfc8693)
+[OAuth 2.0 Token Exchange RFC 8693](https://datatracker.ietf.org/doc/html/rfc8693)
 
 [JSON Web Token (JWT) Profile for OAuth 2.0 Access Tokens](https://datatracker.ietf.org/doc/html/rfc9068)
 
