@@ -1,4 +1,4 @@
-# ASP.NET Core delegated OAuth Token Exchange access token management
+# ASP.NET Core delegated OAuth 2.0 Token Exchange RFC 8693 access token management
 
 ASP.NET Core implementation of the OAuth 2.0 Token Exchange RFC 8693 standard using Entra ID and Duende IdentityServer.
 
