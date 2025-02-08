@@ -22,6 +22,12 @@ Add-Migration "InitIdentityNew" -c ApplicationDbContext
 Update-Database
 ```
 
+## Further examples of OAuth Token exchange RFC 8693
+
+OAuth 2.0 Token Exchange delegated implementation with Microsoft Entra ID and OpenIddict (RFC 8693)
+
+https://github.com/damienbod/OAuthGrantExchangeOidcDownstreamApi
+
 ## History
 
 - 2025-02-07 Update packages
