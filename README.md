@@ -6,7 +6,7 @@ ASP.NET Core implementation of the OAuth 2.0 Token Exchange RFC 8693 standard us
 
 ## Setup
 
-Overview of applications used in this flow
+The solution implements an ASP.NET Core web application which authenticates using Microsoft Entra ID. The web application uses an API protected with a Microsoft Entra ID access token. This API uses another downstream API protected with Duende IdentityServer. The API exchanges the Microsoft Entra ID access token for a new Duende IdentityServer access token using the OAuth 2.0 Token Exchange standard. Both APIs use a user delegated access token. The tokens are persisted on the trusted backend using the IDistributedCache implementation. This can be an in-memory cache or a persistent cache. When using this cache, it is important to automatically renew the access token, if it is missing or invalid.
 
 ![ASP.NET Core access token management](https://github.com/damienbod/token-mgmt-ui-delegated-token-exchange/blob/main/images/context.png)
 
