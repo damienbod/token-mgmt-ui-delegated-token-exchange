@@ -37,6 +37,7 @@ https://github.com/damienbod/OAuthGrantExchangeOidcDownstreamApi
 
 ## History
 
+- 2025-08-01 Update packages
 - 2025-02-07 Update packages
 - 2025-02-01 Initial version
 
