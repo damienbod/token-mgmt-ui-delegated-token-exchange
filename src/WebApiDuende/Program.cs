@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi.Models;
 using NetEscapades.AspNetCore.SecurityHeaders.Infrastructure;
 using WebApiDuende;
 
@@ -75,7 +72,7 @@ app.MapControllers();
 app.MapOpenApi("/openapi/v1/openapi.json");
 //app.MapOpenApi("/openapi/{documentName}/openapi.json");
 
-if (deploySwaggerUI)
+if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerUI(options =>
     {
@@ -83,33 +80,5 @@ if (deploySwaggerUI)
     });
 }
 
-app.Run();
 
-internal sealed class BearerSecuritySchemeTransformer(IAuthenticationSchemeProvider authenticationSchemeProvider) : IOpenApiDocumentTransformer
-{
-    public async Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
-    {
-        var authenticationSchemes = await authenticationSchemeProvider.GetAllSchemesAsync();
-        if (authenticationSchemes.Any(authScheme => authScheme.Name == "Bearer"))
-        {
-            var requirements = new Dictionary<string, OpenApiSecurityScheme>
-            {
-                ["Bearer"] = new OpenApiSecurityScheme
-                {
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer", // "bearer" refers to the header name here
-                    In = ParameterLocation.Header,
-                    BearerFormat = "Json Web Token"
-                }
-            };
-            document.Components ??= new OpenApiComponents();
-            document.Components.SecuritySchemes = requirements;
-        }
-        document.Info = new()
-        {
-            Title = "Duende API Bearer scheme",
-            Version = "v1",
-            Description = "Duende API"
-        };
-    }
-}
+app.Run();
