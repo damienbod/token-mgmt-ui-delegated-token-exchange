@@ -37,6 +37,7 @@ https://github.com/damienbod/OAuthGrantExchangeOidcDownstreamApi
 
 ## History
 
+- 2026-06-14 Updated packages
 - 2025-12-01 .NET 10
 - 2025-09-27 Update packages
 - 2025-08-01 Update packages
