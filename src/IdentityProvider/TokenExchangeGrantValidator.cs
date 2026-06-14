@@ -32,7 +32,7 @@ public class TokenExchangeGrantValidator : IExtensionGrantValidator
         _userManager = userManager;
     }
 
-    public async Task ValidateAsync(ExtensionGrantValidationContext context)
+    public async Task ValidateAsync(ExtensionGrantValidationContext context, CancellationToken ct)
     {
         // defaults
         context.Result = new GrantValidationResult(TokenRequestErrors.InvalidRequest);
