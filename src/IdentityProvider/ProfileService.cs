@@ -9,7 +9,7 @@ namespace IdentityProvider;
 
 public class ProfileService : IProfileService
 {
-    public Task GetProfileDataAsync(ProfileDataRequestContext context)
+    public Task GetProfileDataAsync(ProfileDataRequestContext context, CancellationToken ct)
     {
         // add actor claim if needed
         if (context.Subject.GetAuthenticationMethod() == OidcConstants.GrantTypes.TokenExchange)
@@ -24,7 +24,7 @@ public class ProfileService : IProfileService
         return Task.CompletedTask;
     }
 
-    public Task IsActiveAsync(IsActiveContext context)
+    public Task IsActiveAsync(IsActiveContext context, CancellationToken ct)
     {
         context.IsActive = true;
         return Task.CompletedTask;

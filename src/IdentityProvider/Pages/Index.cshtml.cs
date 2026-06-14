@@ -18,9 +18,8 @@ public class Index : PageModel
 {
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public Index(UserManager<ApplicationUser> userManager, IdentityServerLicense? license = null)
+    public Index(UserManager<ApplicationUser> userManager)
     {
-        License = license;
         _userManager = userManager;
     }
 
@@ -34,8 +33,6 @@ public class Index : PageModel
 
     [BindProperty]
     public byte[] Photo { get; set; } = [];
-
-    public IdentityServerLicense? License { get; }
 
     public async Task OnGetAsync()
     {
