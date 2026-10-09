@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Identity.Web;
 using Microsoft.Identity.Web.UI;
+using Microsoft.IdentityModel.Logging;
 using RazorPageEntraId;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,7 +42,13 @@ builder.Services.AddRazorPages()
 builder.Services.AddServerSideBlazor()
     .AddMicrosoftIdentityConsentHandler();
 
+builder.Services.AddHttpLogging(o => { });
+
 var app = builder.Build();
+
+IdentityModelEventSource.ShowPII = true;
+app.UseHttpLogging();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
